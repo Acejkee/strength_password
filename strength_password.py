@@ -2,20 +2,20 @@ import string
 
 
 def strength_password(value: str) -> str:
-    digits = string.digits
-    lower = string.ascii_lowercase
-    upper = string.ascii_uppercase
-
     if len(value) < 8:
         return "В Вашем пароле меньше 8 символов!"
-    if all(e in digits for e in value) or all(e in lower for e in value) or all(e in upper for e in value):
-        return "Ваш пароль недостаточно надежен, попробуйте добавить цифры, заглавные и строчные буквы!"
-    if any(e in digits for e in value) and any(e in lower for e in value) and any(e in upper for e in value):
+    digits = string.digits
+    lowers = string.ascii_lowercase
+    uppers = string.ascii_uppercase
+    count = 0
+    for symbols in (digits, lowers, uppers):
+        if any(e in symbols for e in value):
+            count += 1
+            continue
+    if count == 3:
         return "Ваш пароль достаточно надежен!"
-    if (any(e in digits for e in value) and any(e in lower for e in value)) or (any(e in digits for e in value)
-                                                                                and any(e in upper for e in value)) or (
-            any(e in lower for e in value) and any(e in upper for e in value)):
-        return "Ваш пароль хороший, но Вы можете его улучшить, пароль должен состоять из цифр, заглавых и строчных букв"
+    return "Ваш пароль недостаточно надежен, попробуйте добавить цифры, заглавные и строчные буквы!" if count == 1 \
+        else "Ваш пароль хороший, но Вы можете его улучшить, пароль должен состоять из цифр, заглавых и строчных букв"
 
 
 if __name__ == '__main__':
